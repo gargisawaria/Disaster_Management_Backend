@@ -1,6 +1,8 @@
 # Disaster_Management_Backend
 This is the backend for the Disaster Management application. It provides RESTful APIs for managing incidents, disaster types, and severities, and includes Swagger documentation for easy testing.
 ![image](https://github.com/user-attachments/assets/8ae0b92d-b510-4109-88f9-b3d54f76df59)
+
+
 this is the db structure which I follow
 
 ## 🚀 Setup Instructions
