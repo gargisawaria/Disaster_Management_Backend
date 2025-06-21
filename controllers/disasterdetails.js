@@ -55,8 +55,8 @@ router.get('/severities', (req, res) => {
  *                   type:
  *                     type: string
  */
-router.get('/disastertypes', (req, res) => {
-  db.all('SELECT * FROM disaster_type', [], (err, rows) => {
+router.get('/disastertypes', async(req, res) => {
+ await db.all('SELECT * FROM disaster_type', [], (err, rows) => {
     if (err) return res.status(500).json({ error: 'Internal Server Error' });
 
     const disasterTypes = rows.map(row => new DisasterType(row.id, row.type));
@@ -153,14 +153,9 @@ router.get('/incidents', (req, res) => {
     params.push(...severityList);
   }
 
-  if (startDate) {
-    conditions.push(`DATE(i.timestamp) >= DATE(?)`);
-    params.push(startDate);
-  }
-
-  if (endDate) {
-    conditions.push(`DATE(i.timestamp) <= DATE(?)`);
-    params.push(endDate);
+  if (startDate && endDate) {
+    conditions.push(`DATE(i.timestamp) BETWEEN DATE(?) AND DATE(?)`);
+    params.push(startDate, endDate);
   }
 
   if (conditions.length > 0) {
