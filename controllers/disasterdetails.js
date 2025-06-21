@@ -127,7 +127,7 @@ router.get('/disastertypes', async(req, res) => {
  */
 
 router.get('/incidents', (req, res) => {
-  const { severities, incidentTypes, startDate, endDate } = req.query;
+  const { severities, incidentTypes, fromDate, toDate } = req.query;
 
   const severityList = severities ? severities.split(',') : [];
   const typeList = incidentTypes ? incidentTypes.split(',') : [];
@@ -153,9 +153,9 @@ router.get('/incidents', (req, res) => {
     params.push(...severityList);
   }
 
-  if (startDate && endDate) {
+  if (fromDate && toDate) {
     conditions.push(`DATE(i.timestamp) BETWEEN DATE(?) AND DATE(?)`);
-    params.push(startDate, endDate);
+    params.push(fromDate, toDate);
   }
 
   if (conditions.length > 0) {
